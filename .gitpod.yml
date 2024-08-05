@@ -32,6 +32,9 @@ tasks:
   # and then install pretext-to-tpf
   init: gp sync-await bundle # Wait for previous 'inits' to complete
   command: |
+    source ${HOME}/.bashrc
+    mamba init
+    mamba activate hydrax
     echo 'Hello'
 
 ports:
