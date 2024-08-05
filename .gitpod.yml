@@ -1,8 +1,38 @@
 image: gitpod/workspace-full-vnc
 
-- name: SETUP
+tasks:
+- name: SETUP - Download data
   init: |
-    echo "Hello there - Welcome to GitPod"
+    cd /workspace
+    curl -L "https://gitlab.com/wtsi-grit/rapid-curation/-/archive/main/rapid-curation-main.tar.gz?path=test_data" | tar xzf -
+    mv rapid-curation-main-test_data/test_data ./
+    rmdir rapid-curation-main-test_data
+    gunzip test_data/*.gz
+
+- name: SETUP - MAMBA ENVIRONMENT
+  init: |
+    cd /workspace
+    wget "https://github.com/conda-forge/miniforge/releases/latest/download/Mambaforge-$(uname)-$(uname -m).sh"
+    bash Mambaforge-$(uname)-$(uname -m).sh -b -p /workspace/mambaforge && rm Mambaforge-$(uname)-$(uname -m).sh
+
+    /workspace/mambaforge/bin/mamba init bash
+    source ${HOME}/.bashrc
+    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib -y &&
+    gp sync-done bundle
+
+- name: SETUP - DOWNLOAD HYDRAX
+  init: |
+    git clone https://github.com/Amjad-Khalaf/HyraxDotPlot.git
+    cd HyraxDotPlot
+    python hyraxdotplot.py -h
+
+- name: MAIN - TERMINAL TO USE
+  # Installing click and ruff in the mamba environment didn't work for some reason
+  # It is much easier to install via that mamba env's pip3
+  # and then install pretext-to-tpf
+  init: gp sync-await bundle # Wait for previous 'inits' to complete
+  command: |
+    echo 'Hello'
 
 ports:
   - port: 5900
