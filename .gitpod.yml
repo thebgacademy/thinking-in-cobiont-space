@@ -12,12 +12,7 @@ tasks:
 - name: SETUP - MAMBA ENVIRONMENT
   init: |
     cd /workspace
-    wget "https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Mambaforge-24.3.0-0-Linux-x86_64.sh"
-    bash Mambaforge-24.3.0-0-Linux-x86_64.sh -b -p /workspace/mambaforge && rm Mambaforge-24.3.0-0-Linux-x86_64.sh
-
-    /workspace/mambaforge/bin/mamba init bash
-    source ${HOME}/.bashrc
-    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib ipykernel -y &&
+    pip install hydrax bokeh
     gp sync-done bundle
 
 - name: SETUP - DOWNLOAD HYDRAX
@@ -33,8 +28,6 @@ tasks:
   init: gp sync-await bundle # Wait for previous 'inits' to complete
   command: |
     source ${HOME}/.bashrc
-    mamba init
-    mamba activate hydrax
     echo 'Hello'
 
 ports:
