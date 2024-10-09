@@ -17,7 +17,7 @@ tasks:
 
     /workspace/mambaforge/bin/mamba init bash
     source ${HOME}/.bashrc
-    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib -y &&
+    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib ipykernel -y &&
     gp sync-done bundle
 
 - name: SETUP - DOWNLOAD HYDRAX
