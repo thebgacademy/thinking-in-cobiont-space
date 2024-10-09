@@ -44,4 +44,9 @@ ports:
     onOpen: open-browser
     visibility: public
 
+vscode:
+    extensions:
+        - ms-toolsai.jupyter
+        - ms-python.python
+
 workspaceLocation: "/workspace"
