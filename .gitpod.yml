@@ -12,7 +12,7 @@ tasks:
 - name: SETUP - MAMBA ENVIRONMENT
   init: |
     cd /workspace
-    pip install hydrax bokeh
+    pip install hydrax bokeh holoviews matplotlib
     gp sync-done bundle
 
 - name: SETUP - DOWNLOAD HYDRAX
