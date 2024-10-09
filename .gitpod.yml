@@ -11,14 +11,30 @@ tasks:
 
 - name: SETUP - MAMBA ENVIRONMENT
   init: |
-    cd /workspace
     wget "https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Mambaforge-24.3.0-0-Linux-x86_64.sh"
-    bash Mambaforge-24.3.0-0-Linux-x86_64.sh -b -p /workspace/mambaforge && rm Mambaforge-24.3.0-0-Linux-x86_64.sh
+    bash Mambaforge-24.3.0-0-Linux-x86_64.sh -b -p /workspace/mambaforge
+    rm Mambaforge-24.3.0-0-Linux-x86_64.sh
 
-    /workspace/mambaforge/bin/mamba init bash
-    source ${HOME}/.bashrc
-    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib -y &&
+    export PATH="/workspace/mambaforge/bin:$PATH"
+
+    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib ipykernel -y
+
+    # Register the hydrax environment as a Jupyter kernel
+    source activate hydrax
+    python -m ipykernel install --user --name=hydrax --display-name "Hydrax Environment"
+
     gp sync-done bundle
+
+#- name: SETUP - MAMBA ENVIRONMENT
+#  init: |
+#    cd /workspace
+#    wget "https://github.com/conda-forge/miniforge/releases/download/24.3.0-0/Mambaforge-24.3.0-0-Linux-x86_64.sh"
+#    bash Mambaforge-24.3.0-0-Linux-x86_64.sh -b -p /workspace/mambaforge && rm Mambaforge-24.3.0-0-Linux-x86_64.sh
+
+#    /workspace/mambaforge/bin/mamba init bash
+#    source ${HOME}/.bashrc
+#    mamba create -n hydrax -c bioconda holoviews bokeh matplotlib -y &&
+#    gp sync-done bundle
 
 - name: SETUP - DOWNLOAD HYDRAX
   init: |
